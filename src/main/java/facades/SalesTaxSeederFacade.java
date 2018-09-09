@@ -1,11 +1,18 @@
+package facades;
+
+import daos.SalesTaxDAO;
+import mappers.SalesTaxMapper;
+import managers.SalesTaxFileManager;
+import models.database.SalesTaxDBModel;
+
 import java.util.List;
 
-public class SalesTaxSeederUtility {
+public class SalesTaxSeederFacade {
     private final SalesTaxFileManager salesTaxFileManager;
     private final SalesTaxMapper salesTaxMapper;
     private final SalesTaxDAO salesTaxDAO;
 
-    public SalesTaxSeederUtility(final SalesTaxFileManager salesTaxFileManager, final SalesTaxMapper salesTaxMapper, final SalesTaxDAO salesTaxDAO) {
+    public SalesTaxSeederFacade(final SalesTaxFileManager salesTaxFileManager, final SalesTaxMapper salesTaxMapper, final SalesTaxDAO salesTaxDAO) {
         this.salesTaxFileManager = salesTaxFileManager;
         this.salesTaxMapper = salesTaxMapper;
         this.salesTaxDAO = salesTaxDAO;

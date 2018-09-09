@@ -1,3 +1,5 @@
+import mappers.SalesTaxMapper;
+import models.database.SalesTaxDBModel;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

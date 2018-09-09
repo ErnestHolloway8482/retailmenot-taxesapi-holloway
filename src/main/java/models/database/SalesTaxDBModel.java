@@ -1,3 +1,5 @@
+package models.database;
+
 public class SalesTaxDBModel {
     private String state;
     private String zipCode;

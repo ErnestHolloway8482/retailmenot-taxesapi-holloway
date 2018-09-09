@@ -1,3 +1,7 @@
+package daos;
+
+import models.database.SalesTaxDBModel;
+
 public class SalesTaxDAO {
 
     public boolean create(final SalesTaxDBModel model){

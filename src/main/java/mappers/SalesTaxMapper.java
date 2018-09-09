@@ -1,4 +1,6 @@
-import java.text.ParseException;
+package mappers;
+
+import models.database.SalesTaxDBModel;
 
 public class SalesTaxMapper {
     public SalesTaxDBModel map(final String rowContent) {
