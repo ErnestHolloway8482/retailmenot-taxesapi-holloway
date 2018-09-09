@@ -25,6 +25,7 @@ hs_err_pid*
 #Intelli J Project Folders
 .idea
 *.iml
+out/
 
 #Gradle Hidden Directory
 .gradle
