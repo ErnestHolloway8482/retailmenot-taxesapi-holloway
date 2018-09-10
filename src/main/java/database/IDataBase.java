@@ -5,8 +5,6 @@ public interface IDataBase {
 
     public boolean createDatabase(String fileNameAndPath);
 
-    public boolean createDataBase(String encrpytionKey, String fileNameAndPath);
-
     public boolean openDataBase(String fileNameAndPath);
 
     public boolean closeDataBase(String fileNameAndPath);

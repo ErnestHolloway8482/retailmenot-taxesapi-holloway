@@ -1,5 +1,6 @@
 package managers;
 
+import javax.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Singleton
 public class SalesTaxFileManager {
     private static final String CSV_ROW_HEADER = "State,ZipCode,TaxRegionName,StateRate,EstimatedCombinedRate,EstimatedCountyRate,EstimatedCityRate,EstimatedSpecialRate,RiskLevel";
     private static final String TAX_FILES_DIRECTORY = "TAXRATES";
