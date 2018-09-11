@@ -1,4 +1,5 @@
-import facades.SalesTaxSeederFacade;
+package unit;
+
 import managers.ObjectDBManager;
 import org.junit.After;
 import org.junit.Assert;
@@ -7,6 +8,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+/**
+ * @author ernestholloway
+ * <p>
+ * Unit Test class that tests the {@link ObjectDBManager}
+ */
 @RunWith(JUnit4.class)
 public class ObjectDBManagerTest {
     final private static String TEST_DATABASE_FILENAME = "sales_tax_test.odb";

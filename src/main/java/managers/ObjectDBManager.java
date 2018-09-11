@@ -17,10 +17,19 @@ import java.io.File;
 public class ObjectDBManager implements IDataBaseManager {
     private EntityManagerFactory entityManagerFactory;
 
+    /**
+     * CTOR
+     */
     @Inject
     public ObjectDBManager() {
     }
 
+    /**
+     * Creates a new object db file, or opens an existing one if available
+     *
+     * @param fileNameAndPath is the full file name and path for the the .odb file.
+     * @return true if successfully created or opened, false otherwise.
+     */
     @Override
     public boolean openDataBase(final String fileNameAndPath) {
         try {
@@ -39,8 +48,18 @@ public class ObjectDBManager implements IDataBaseManager {
         }
     }
 
+    /**
+     * Closes the object db database file
+     *
+     * @param fileNameAndPath is the full file name and path for the the .odb file
+     * @return true if successfully closed, false otherwise.
+     */
     @Override
     public boolean closeDataBase(final String fileNameAndPath) {
+        if (entityManagerFactory == null) {
+            return false;
+        }
+
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.close();
 
@@ -53,6 +72,12 @@ public class ObjectDBManager implements IDataBaseManager {
         return isDataBaseClosed;
     }
 
+    /**
+     * Deletes the object db file entirely from the file system.
+     *
+     * @param fileNameAndPath is the full file name and path for the the .odb file.
+     * @return true if successfully deleted, false otherwise.
+     */
     @Override
     public boolean deleteDataBase(final String fileNameAndPath) {
         try {
@@ -64,6 +89,12 @@ public class ObjectDBManager implements IDataBaseManager {
         }
     }
 
+    /**
+     * Indicates if the .odb file for the object db exists.
+     *
+     * @param fileNameAndPath is the full file name and path for the the .odb file.
+     * @return true if the database file exists, false otherwise.
+     */
     @Override
     public boolean doesDataBaseExist(final String fileNameAndPath) {
         try {
@@ -75,6 +106,10 @@ public class ObjectDBManager implements IDataBaseManager {
         }
     }
 
+    /**
+     * @return the {@link EntityManager} which is required to perform any CRUD operations for any corresponding objects
+     * stored in the database.
+     */
     public EntityManager getEntityManager() {
         if (entityManagerFactory == null) {
             return null;

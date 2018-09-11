@@ -7,6 +7,11 @@ import managers.SalesTaxFileManager;
 
 import javax.inject.Singleton;
 
+/**
+ * @author ernestholloway
+ *
+ * This is the module class for injecting manager type objects.
+ */
 @Module
 public class ManagerModule {
 

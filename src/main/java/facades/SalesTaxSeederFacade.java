@@ -2,8 +2,8 @@ package facades;
 
 import daos.SalesTaxDAO;
 import managers.ObjectDBManager;
-import mappers.SalesTaxMapper;
 import managers.SalesTaxFileManager;
+import mappers.SalesTaxMapper;
 import models.database.SalesTaxDBModel;
 
 import javax.inject.Inject;
@@ -20,14 +20,22 @@ import java.util.List;
 @Singleton
 public class SalesTaxSeederFacade {
     public static final int TOTAL_NUMBER_OF_TAX_FILES = 52;
-    public static final String DATABASE_FILENAME = "sales_tax.odb";
-    public static final String DATABASE_FILENAME_BACKUP = "sales_tax.odb$";
 
     private final SalesTaxFileManager salesTaxFileManager;
     private final SalesTaxMapper salesTaxMapper;
     private final SalesTaxDAO salesTaxDAO;
     private final ObjectDBManager objectDBManager;
 
+    private String databaseFileName = "sales_tax.odb";
+    private String databaseFileNameBackup = "sales_tax.odb$";
+
+    /**
+     * CTOR
+     * @param salesTaxFileManager
+     * @param salesTaxMapper
+     * @param salesTaxDAO
+     * @param objectDBManager
+     */
     @Inject
     public SalesTaxSeederFacade(final SalesTaxFileManager salesTaxFileManager, final SalesTaxMapper salesTaxMapper, final SalesTaxDAO salesTaxDAO, final ObjectDBManager objectDBManager) {
         this.salesTaxFileManager = salesTaxFileManager;
@@ -36,6 +44,25 @@ public class SalesTaxSeederFacade {
         this.objectDBManager = objectDBManager;
     }
 
+    /**
+     * Sets the file name and path for the database file and auto-sets the backup file that ends in "$".
+     *
+     * @param fileNameAndPath is the full file name and path for the database file.
+     */
+    public void setDatabaseFileName(final String fileNameAndPath) {
+        if (fileNameAndPath == null) {
+            return;
+        }
+
+        databaseFileName = fileNameAndPath;
+        databaseFileNameBackup = fileNameAndPath + "$";
+    }
+
+    /**
+     * Seeds all of the .csv files containing the sales tax information into the object database.
+     *
+     * @return true if successfully seeded, false otherwise.
+     */
     public boolean seedSalesTaxData() {
         boolean successful = false;
 
@@ -52,7 +79,7 @@ public class SalesTaxSeederFacade {
         }
 
         //Create the database file. If we can't create it, bail.
-        if (!objectDBManager.openDataBase(DATABASE_FILENAME)) {
+        if (!objectDBManager.openDataBase(databaseFileName)) {
             return false;
         }
 
@@ -71,23 +98,35 @@ public class SalesTaxSeederFacade {
             }
         }
 
-        //If we can't close the database bail.
-        if (!objectDBManager.closeDataBase(DATABASE_FILENAME)) {
-            return false;
-        }
-
         return successful;
     }
 
+    /**
+     * Returns a {@link SalesTaxDBModel} based on the zipCode.
+     *
+     * @param zipCode is the zipCode that is used to search for the corresponding sales tax.
+     * @return {@link SalesTaxDBModel} if found for the zipcode, null otherwise.
+     */
     public SalesTaxDBModel getSalesTaxDataByZipCode(final String zipCode) {
         return salesTaxDAO.readByZipCode(zipCode);
     }
 
+    /**
+     * Removes all of the {@link SalesTaxDBModel} from the database and deletes the database file.
+     *
+     * @return true if the sales tax info and database file are successfully deleted, false otherwise.
+     */
     public boolean deleteSalesTaxDatabaseFile() {
         boolean dataCleared = salesTaxDAO.deleteAll();
-        boolean databaseFileCleared = objectDBManager.deleteDataBase(DATABASE_FILENAME);
-        boolean databaseBackupFileCleared = objectDBManager.deleteDataBase(DATABASE_FILENAME_BACKUP);
 
-        return dataCleared && databaseFileCleared && databaseBackupFileCleared;
+        //If we can't close the database bail.
+        if (!objectDBManager.closeDataBase(databaseFileName)) {
+            return false;
+        }
+
+        boolean databaseFileCleared = objectDBManager.deleteDataBase(databaseFileName);
+        objectDBManager.deleteDataBase(databaseFileNameBackup);
+
+        return dataCleared && databaseFileCleared;
     }
 }

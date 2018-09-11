@@ -9,14 +9,30 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+/**
+ * @author ernestholloway
+ * <p>
+ * This DAO class is used to perform CRUD operations for the {@link SalesTaxDBModel}.
+ */
 public class SalesTaxDAO implements ISalesTaxDAO {
     private final ObjectDBManager objectDBManager;
 
+    /**
+     * CTOR
+     *
+     * @param objectDBManager is the database manager class to allow for the DAO CRUD based operations.
+     */
     @Inject
     public SalesTaxDAO(final ObjectDBManager objectDBManager) {
         this.objectDBManager = objectDBManager;
     }
 
+    /**
+     * Stores a {@link SalesTaxDBModel} into the object database.
+     *
+     * @param model is a {@link SalesTaxDBModel}
+     * @return true if successfully stored, false otherwise.
+     */
     @Override
     public boolean create(final SalesTaxDBModel model) {
         EntityManager entityManager = objectDBManager.getEntityManager();
@@ -32,6 +48,13 @@ public class SalesTaxDAO implements ISalesTaxDAO {
         }
     }
 
+    /**
+     * Retrieves the {@link SalesTaxDBModel} by the entered zipcode. The assumpion is that each sales tax item is unique to a specific
+     * zicode.
+     *
+     * @param zipCode is the USA based zipcode.
+     * @return {@link SalesTaxDBModel} if there is a matching zipcode, null otherwise.
+     */
     @Override
     public SalesTaxDBModel readByZipCode(final String zipCode) {
         SalesTaxDBModel model = null;
@@ -49,6 +72,9 @@ public class SalesTaxDAO implements ISalesTaxDAO {
         return model;
     }
 
+    /**
+     * @return the total number of {@link SalesTaxDBModel} in the database.
+     */
     @Override
     public long getTotalNumber() {
         long totalNumber = 0;
@@ -66,9 +92,18 @@ public class SalesTaxDAO implements ISalesTaxDAO {
         return totalNumber;
     }
 
+    /**
+     * Deleates all of the {@link SalesTaxDBModel} inside of the object database.
+     *
+     * @return true if all items are successfully deleted, false otherwise.
+     */
     @Override
     public boolean deleteAll() {
         EntityManager entityManager = objectDBManager.getEntityManager();
+
+        if (entityManager == null) {
+            return false;
+        }
 
         try {
             TypedQuery<SalesTaxDBModel> query = entityManager.createQuery("SELECT t FROM SalesTaxDBModel t", SalesTaxDBModel.class);

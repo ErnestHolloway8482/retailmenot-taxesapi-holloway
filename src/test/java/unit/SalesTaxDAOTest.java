@@ -1,3 +1,5 @@
+package unit;
+
 import daos.ISalesTaxDAO;
 import daos.SalesTaxDAO;
 import managers.ObjectDBManager;
@@ -9,6 +11,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+/**
+ * @author ernestholloway
+ *
+ * Unit Test class the {@link SalesTaxDAO}
+ */
 @RunWith(JUnit4.class)
 public class SalesTaxDAOTest {
     final private static String TEST_DATABASE_FILENAME = "sales_tax_test.odb";
@@ -71,11 +78,11 @@ public class SalesTaxDAOTest {
     }
 
     @Test
-    public void testDeleteAll(){
+    public void testDeleteAll() {
         Assert.assertEquals(0, salesTaxDAO.getTotalNumber());
 
         //Create 100 entries
-        for(int i=0; i<100; i++){
+        for (int i = 0; i < 100; i++) {
             SalesTaxDBModel model = new SalesTaxDBModel();
             Assert.assertTrue(salesTaxDAO.create(model));
         }

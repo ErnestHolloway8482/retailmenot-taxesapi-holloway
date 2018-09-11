@@ -10,6 +10,11 @@ import mappers.SalesTaxMapper;
 
 import javax.inject.Singleton;
 
+/**
+ * @author ernestholloway
+ * <p>
+ * This is a module class for injecting {@link SalesTaxSeederFacade}
+ */
 @Module
 public class FacadeModule {
 
