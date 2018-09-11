@@ -14,13 +14,14 @@ import java.io.File;
  * where all database models will be stored.
  */
 @Singleton
-public class ObjectDBManager {
+public class ObjectDBManager implements IDataBaseManager {
     private EntityManagerFactory entityManagerFactory;
 
     @Inject
     public ObjectDBManager() {
     }
 
+    @Override
     public boolean openDataBase(final String fileNameAndPath) {
         try {
             File file = new File(fileNameAndPath);
@@ -38,6 +39,7 @@ public class ObjectDBManager {
         }
     }
 
+    @Override
     public boolean closeDataBase(final String fileNameAndPath) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.close();
@@ -51,6 +53,7 @@ public class ObjectDBManager {
         return isDataBaseClosed;
     }
 
+    @Override
     public boolean deleteDataBase(final String fileNameAndPath) {
         try {
             File file = new File(fileNameAndPath);
@@ -61,6 +64,7 @@ public class ObjectDBManager {
         }
     }
 
+    @Override
     public boolean doesDataBaseExist(final String fileNameAndPath) {
         try {
             File file = new File(fileNameAndPath);

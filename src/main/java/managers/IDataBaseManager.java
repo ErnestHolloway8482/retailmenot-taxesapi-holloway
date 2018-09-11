@@ -1,9 +1,7 @@
-package database;
+package managers;
 
-public interface IDataBase {
+public interface IDataBaseManager {
     public static final int DATA_BASE_VERSION_NUMBER = 1;
-
-    public boolean createDatabase(String fileNameAndPath);
 
     public boolean openDataBase(String fileNameAndPath);
 

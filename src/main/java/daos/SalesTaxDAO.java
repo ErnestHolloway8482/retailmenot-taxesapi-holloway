@@ -36,9 +36,11 @@ public class SalesTaxDAO implements ISalesTaxDAO {
     public SalesTaxDBModel readByZipCode(final String zipCode) {
         SalesTaxDBModel model = null;
 
+        String queryString = "SELECT t FROM SalesTaxDBModel t WHERE zipCode == \"%s\"";
+
         try {
             EntityManager entityManager = objectDBManager.getEntityManager();
-            TypedQuery<SalesTaxDBModel> query = entityManager.createQuery("SELECT t FROM Point t WHERE zipCode = " + zipCode, SalesTaxDBModel.class);
+            TypedQuery<SalesTaxDBModel> query = entityManager.createQuery(String.format(queryString, zipCode), SalesTaxDBModel.class);
             model = query.getSingleResult();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -48,13 +50,13 @@ public class SalesTaxDAO implements ISalesTaxDAO {
     }
 
     @Override
-    public int getTotalNumber() {
-        int totalNumber = 0;
+    public long getTotalNumber() {
+        long totalNumber = 0;
 
         try {
             EntityManager entityManager = objectDBManager.getEntityManager();
             Query query = entityManager.createQuery("SELECT COUNT(t) FROM SalesTaxDBModel t");
-            totalNumber = (int) query.getSingleResult();
+            totalNumber = (Long) query.getSingleResult();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
