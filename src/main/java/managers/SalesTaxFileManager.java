@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * @author ernestholloway
+ * <p>
+ * A class used to read all of the .csv files that represent the sales tax info for all 52 states within the U.S.A.
+ */
 @Singleton
 public class SalesTaxFileManager {
     private static final String CSV_ROW_HEADER = "State,ZipCode,TaxRegionName,StateRate,EstimatedCombinedRate,EstimatedCountyRate,EstimatedCityRate,EstimatedSpecialRate,RiskLevel";

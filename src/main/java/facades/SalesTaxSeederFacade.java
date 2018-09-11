@@ -19,18 +19,20 @@ import java.util.List;
  */
 @Singleton
 public class SalesTaxSeederFacade {
-    private static final String DATABASE_FILENAME = "sales_tax.odb";
+    public static final String DATABASE_FILENAME = "sales_tax.odb";
+    public static final String DATABASE_FILENAME_BACKUP = "sales_tax.odb$";
 
     private final SalesTaxFileManager salesTaxFileManager;
     private final SalesTaxMapper salesTaxMapper;
     private final SalesTaxDAO salesTaxDAO;
-    private ObjectDBManager objectDBManager;
+    private final ObjectDBManager objectDBManager;
 
     @Inject
-    public SalesTaxSeederFacade(final SalesTaxFileManager salesTaxFileManager, final SalesTaxMapper salesTaxMapper, final SalesTaxDAO salesTaxDAO) {
+    public SalesTaxSeederFacade(final SalesTaxFileManager salesTaxFileManager, final SalesTaxMapper salesTaxMapper, final SalesTaxDAO salesTaxDAO, final ObjectDBManager objectDBManager) {
         this.salesTaxFileManager = salesTaxFileManager;
         this.salesTaxMapper = salesTaxMapper;
         this.salesTaxDAO = salesTaxDAO;
+        this.objectDBManager = objectDBManager;
     }
 
     public boolean seedSalesTaxData() {
@@ -75,7 +77,11 @@ public class SalesTaxSeederFacade {
         return salesTaxDAO.readByZipCode(zipCode);
     }
 
-    public void resetSalesTaxData(){
-        salesTaxDAO.deleteAll();
+    public boolean deleteSalesTaxDatabaseFile(){
+        boolean dataCleared = salesTaxDAO.deleteAll();
+        boolean databaseFileCleared = objectDBManager.deleteDataBase(DATABASE_FILENAME);
+        boolean databaseBackupFileCleared = objectDBManager.deleteDataBase(DATABASE_FILENAME_BACKUP);
+
+        return dataCleared && databaseFileCleared && databaseBackupFileCleared;
     }
 }
