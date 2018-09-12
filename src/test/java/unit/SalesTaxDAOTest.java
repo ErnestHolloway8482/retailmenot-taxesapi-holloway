@@ -13,7 +13,7 @@ import org.junit.runners.JUnit4;
 
 /**
  * @author ernestholloway
- *
+ * <p>
  * Unit Test class the {@link SalesTaxDAO}
  */
 @RunWith(JUnit4.class)

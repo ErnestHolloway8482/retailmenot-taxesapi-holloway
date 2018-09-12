@@ -1,28 +1,18 @@
 package application;
 
-import facades.SalesTaxSeederFacade;
-import modules.AppComponent;
+import controllers.SalesTaxRestController;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import javax.inject.Inject;
-
+@ComponentScan(basePackageClasses = SalesTaxRestController.class)
+@EnableAutoConfiguration
+@EnableWebMvc
 @SpringBootApplication
 public class SalesTaxAPIApplication {
-    private static AppComponent appComponent;
-
-    @Inject
-    SalesTaxSeederFacade salesTaxSeederFacade;
-
     public static void main(String[] args) {
-        //Sets up the Dagger dependency injection graph for the entire application.
-//        appComponent = DaggerAppComponent.builder().application(this).build();
-
         SpringApplication.run(application.SalesTaxAPIApplication.class, args);
-    }
-
-    private void setup(){
-        salesTaxSeederFacade.setDatabaseFileName("sales_tax.odb");
-        salesTaxSeederFacade.seedSalesTaxData();
     }
 }

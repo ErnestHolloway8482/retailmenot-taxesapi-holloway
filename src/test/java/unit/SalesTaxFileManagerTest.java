@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * @author ernestholloway
- *
+ * <p>
  * Unit Test Class that tests the {@link SalesTaxFileManager}
  */
 @RunWith(JUnit4.class)

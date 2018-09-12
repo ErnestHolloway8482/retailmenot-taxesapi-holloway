@@ -10,7 +10,7 @@ import org.junit.runners.JUnit4;
 
 /**
  * @author ernestholloway
- *
+ * <p>
  * Unit Test Class that tests the {@link SalesTaxMapper}
  */
 @RunWith(JUnit4.class)

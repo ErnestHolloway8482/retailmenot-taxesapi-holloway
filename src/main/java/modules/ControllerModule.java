@@ -13,7 +13,7 @@ import facades.SalesTaxSeederFacade;
 @Module
 public class ControllerModule {
     @Provides
-    SalesTaxRestController provideSalesTaxRestController(final SalesTaxSeederFacade salesTaxSeederFacade) {
-        return new SalesTaxRestController(salesTaxSeederFacade);
+    SalesTaxRestController provideSalesTaxRestController() {
+        return new SalesTaxRestController();
     }
 }

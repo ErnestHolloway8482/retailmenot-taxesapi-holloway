@@ -31,6 +31,7 @@ public class SalesTaxSeederFacade {
 
     /**
      * CTOR
+     *
      * @param salesTaxFileManager
      * @param salesTaxMapper
      * @param salesTaxDAO
@@ -68,6 +69,7 @@ public class SalesTaxSeederFacade {
 
         //If we've already seeded the data into our database, no need to do it again.
         if (salesTaxDAO.getTotalNumber() > 0) {
+            System.out.println("Sales Tax Data Has Already Been Seeded.");
             return false;
         }
 
@@ -75,11 +77,13 @@ public class SalesTaxSeederFacade {
 
         //The file name should not be null and we should have 52, one tax file for each state.
         if (fileNames == null || fileNames.length < TOTAL_NUMBER_OF_TAX_FILES) {
+            System.out.println("The Sales Tax Data Cannot Be Accessed.");
             return false;
         }
 
         //Create the database file. If we can't create it, bail.
         if (!objectDBManager.openDataBase(databaseFileName)) {
+            System.out.println("The database cannot be opened.");
             return false;
         }
 
