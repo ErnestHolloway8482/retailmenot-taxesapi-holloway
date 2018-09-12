@@ -36,6 +36,12 @@ public class SalesTaxRestController {
         SalesTaxDAO salesTaxDAO = new SalesTaxDAO(objectDBManager);
 
         salesTaxSeederFacade = new SalesTaxSeederFacade(salesTaxFileManager, salesTaxMapper, salesTaxDAO, objectDBManager);
+
+        //Make sure the tax database is cleared first. This avoids issues in between shutdowns where the file can't be read.
+        salesTaxSeederFacade.deleteSalesTaxDatabaseFile();
+
+        //Attempt to seed the data first before returning the response.
+        salesTaxSeederFacade.seedSalesTaxData();
     }
 
     /**
@@ -48,12 +54,6 @@ public class SalesTaxRestController {
      */
     @RequestMapping(value = "/salesTax", method = {RequestMethod.GET})
     public String getSalesTaxByZipCode(@RequestParam(required = true) final String zipCode) {
-        //Make sure the tax database is cleared first. This avoids issues in between shutdowns where the file can't be read.
-        salesTaxSeederFacade.deleteSalesTaxDatabaseFile();
-
-        //Attempt to seed the data first before returning the response.
-        salesTaxSeederFacade.seedSalesTaxData();
-
         SalesTaxDBModel model = salesTaxSeederFacade.getSalesTaxDataByZipCode(zipCode);
         String jsonResponse;
 
