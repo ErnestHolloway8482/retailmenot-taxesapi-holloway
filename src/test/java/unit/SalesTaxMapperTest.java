@@ -1,20 +1,29 @@
+package unit;
+
+import mappers.SalesTaxMapper;
+import models.database.SalesTaxDBModel;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+/**
+ * @author ernestholloway
+ * <p>
+ * Unit Test Class that tests the {@link SalesTaxMapper}
+ */
 @RunWith(JUnit4.class)
 public class SalesTaxMapperTest {
     private SalesTaxMapper salesTaxMapper;
 
     @Before
-    public void setup(){
+    public void setup() {
         salesTaxMapper = new SalesTaxMapper();
     }
 
     @Test
-    public void testMapper(){
+    public void testMapper() {
         String value = "";
         SalesTaxDBModel model;
 
@@ -42,15 +51,15 @@ public class SalesTaxMapperTest {
         Assert.assertEquals("99556", model.getZipCode());
         Assert.assertEquals("KENAI PENINSULA BURROUGH", model.getTaxRegionName());
         Assert.assertEquals(0, model.getStateRate(), .01);
-        Assert.assertEquals(0.030000, model.getEstimatedCombinedRate(),.01);
-        Assert.assertEquals(0.030000, model.getEstimatedCountyRate(),.01);
-        Assert.assertEquals(0, model.getEstimatedCityRate(),.01);
-        Assert.assertEquals(0, model.getEstimatedSpecialRate(),.01);
+        Assert.assertEquals(0.030000, model.getEstimatedCombinedRate(), .01);
+        Assert.assertEquals(0.030000, model.getEstimatedCountyRate(), .01);
+        Assert.assertEquals(0, model.getEstimatedCityRate(), .01);
+        Assert.assertEquals(0, model.getEstimatedSpecialRate(), .01);
         Assert.assertEquals(2, model.getRiskLevel());
     }
 
     @Test
-    public void testParseFloat(){
+    public void testParseFloat() {
         String value = "";
 
         //Not a number
@@ -66,7 +75,7 @@ public class SalesTaxMapperTest {
     }
 
     @Test
-    public void testParseInteger(){
+    public void testParseInteger() {
         String value = "";
 
         //Not a number

@@ -1,10 +1,26 @@
-import java.text.ParseException;
+package mappers;
 
+import models.database.SalesTaxDBModel;
+
+/**
+ * @author ernestholloway
+ * <p>
+ * This mapper class is responsible to translating a row from the .csv file for the text based tax information
+ * into a corresponding database model.
+ */
 public class SalesTaxMapper {
-    public SalesTaxDBModel map(final String rowContent) {
-        String[] csvData = rowContent!=null ? rowContent.split(",") : null;
+    private static final int CSV_ROW_DATA_LENGTH = 9;
 
-        if (csvData == null || csvData.length != 9) {
+    /**
+     * Converts a row of .csv data into a {@link SalesTaxDBModel} so that the content is easily searchable by zipcode.
+     *
+     * @param rowContent is the .csv representation of a row of sales tax information.
+     * @return {@link SalesTaxDBModel} if the data is successfully parsed, false otherwise.
+     */
+    public SalesTaxDBModel map(final String rowContent) {
+        String[] csvData = rowContent != null ? rowContent.split(",") : null;
+
+        if (csvData == null || csvData.length != CSV_ROW_DATA_LENGTH) {
             return null;
         } else {
             //This is the order the data should be parsed
@@ -25,6 +41,12 @@ public class SalesTaxMapper {
         }
     }
 
+    /**
+     * Converts a string value to a float.
+     *
+     * @param floatValue is the string value of the number.
+     * @return the float if successfully parsed, -1 otherwise.
+     */
     public float parseFloat(final String floatValue) {
         try {
             return Float.parseFloat(floatValue);
@@ -33,6 +55,12 @@ public class SalesTaxMapper {
         }
     }
 
+    /**
+     * Converts a string value to an integer.
+     *
+     * @param integerValue is the string value of the number.
+     * @return the integer if successfully parsed, -1 otherwise.
+     */
     public int parseInteger(final String integerValue) {
         try {
             return Integer.parseInt(integerValue);
