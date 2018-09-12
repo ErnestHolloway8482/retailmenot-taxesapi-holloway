@@ -1,17 +1,39 @@
-plugins {
-    id 'java'
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+        google()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.4.RELEASE")
+    }
 }
 
-group 'SalesTaxAPI'
-version '1.0-SNAPSHOT'
+plugins {
+    id 'java'
+    id 'idea'
+    id 'eclipse'
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
+}
 
-sourceCompatibility = 1.8
+bootJar {
+    baseName = 'gs-spring-boot'
+    version = '0.1.0'
+}
 
 repositories {
     mavenCentral()
     jcenter()
     google()
 }
+
+group 'SalesTaxAPI'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 dependencies {
     //Jar File Dependencies
@@ -25,9 +47,16 @@ dependencies {
     implementation 'com.google.dagger:dagger:2.15'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.15'
 
+    //Spring 2.0.4
+    implementation('org.springframework.boot:spring-boot-starter')
+    implementation("org.springframework.boot:spring-boot-starter-web")
+
     //Junit
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
     //Mockito
     testImplementation "org.mockito:mockito-core:2.21.0"
+
+    //Spring testing framework
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }
