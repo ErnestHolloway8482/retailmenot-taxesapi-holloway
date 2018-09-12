@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import facades.SalesTaxSeederFacade;
 import models.database.SalesTaxDBModel;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +24,7 @@ public class SalesTaxRestController {
         this.salesTaxSeederFacade = salesTaxSeederFacade;
     }
 
-    @RequestMapping("/getSalesTax")
+    @RequestMapping(value = "/salesTax", method = {RequestMethod.GET})
     public String getSalesTaxByZipCode(@RequestParam(required = true) final String zipCode) {
         //Attempt to seed the data first before returning the response.
         salesTaxSeederFacade.seedSalesTaxData();
@@ -43,7 +44,7 @@ public class SalesTaxRestController {
         return jsonResponse;
     }
 
-    @RequestMapping("/deleteSalesTaxEntries")
+    @RequestMapping(value = "/salesTax", method = {RequestMethod.DELETE})
     public String deleteSalesTaxEntries() {
         String jsonResponse;
 
