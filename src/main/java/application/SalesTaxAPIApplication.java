@@ -20,4 +20,9 @@ public class SalesTaxAPIApplication {
 
         SpringApplication.run(application.SalesTaxAPIApplication.class, args);
     }
+
+    private void setup(){
+        salesTaxSeederFacade.setDatabaseFileName("sales_tax.odb");
+        salesTaxSeederFacade.seedSalesTaxData();
+    }
 }
