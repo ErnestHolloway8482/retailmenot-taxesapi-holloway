@@ -1,4 +1,8 @@
 buildscript {
+    ext {
+        springBootVersion = '2.0.4.RELEASE'
+    }
+
     repositories {
         mavenCentral()
         jcenter()
@@ -6,17 +10,22 @@ buildscript {
     }
 
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.4.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
 
-plugins {
-    id 'java'
-    id 'idea'
-    id 'eclipse'
-    id 'org.springframework.boot'
-    id 'io.spring.dependency-management'
-}
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+//plugins {
+//    id 'java'
+//    id 'idea'
+//    id 'eclipse'
+//    id 'org.springframework.boot'
+//    id 'io.spring.dependency-management'
+//}
 
 bootJar {
     baseName = 'gs-spring-boot'
