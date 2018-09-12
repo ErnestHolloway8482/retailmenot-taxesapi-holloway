@@ -12,6 +12,7 @@ import javax.inject.Singleton;
 @RestController
 @Singleton
 public class SalesTaxRestController {
+    private static final String NORMAL_RESPONSE_FORMAT = "{\n\t%s\n}";
     private static final String NO_SALES_TAX_ENTRY_FOUND = "{\n\"No Sales Tax Entry Found For Zip Code\"\n}";
     private static final String SALES_TAX_DELETED_PASS = "{\n\"True\"\n}";
     private static final String SALES_TAX_DELETED_FAIL = "{\n\"False\"\n}";
@@ -31,10 +32,10 @@ public class SalesTaxRestController {
         String jsonResponse;
 
         if (model == null) {
-            jsonResponse = SALES_TAX_DELETED_PASS;
+            jsonResponse = NO_SALES_TAX_ENTRY_FOUND;
         } else {
             Gson gson = new Gson();
-            jsonResponse = gson.toJson(model, SalesTaxDBModel.class);
+            jsonResponse = String.format(NORMAL_RESPONSE_FORMAT, gson.toJson(model, SalesTaxDBModel.class));
         }
 
         System.out.println("Json Response:" + jsonResponse);
