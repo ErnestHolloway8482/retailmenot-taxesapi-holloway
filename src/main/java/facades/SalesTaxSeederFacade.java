@@ -124,9 +124,7 @@ public class SalesTaxSeederFacade {
         boolean dataCleared = salesTaxDAO.deleteAll();
 
         //If we can't close the database bail.
-        if (!objectDBManager.closeDataBase(databaseFileName)) {
-            return false;
-        }
+        objectDBManager.closeDataBase(databaseFileName);
 
         boolean databaseFileCleared = objectDBManager.deleteDataBase(databaseFileName);
         objectDBManager.deleteDataBase(databaseFileNameBackup);
