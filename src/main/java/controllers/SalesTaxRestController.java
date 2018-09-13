@@ -7,10 +7,14 @@ import managers.ObjectDBManager;
 import managers.SalesTaxFileManager;
 import mappers.SalesTaxMapper;
 import models.database.SalesTaxDBModel;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.concurrent.Future;
 
 /**
  * @author ernestholloway
@@ -24,18 +28,29 @@ public class SalesTaxRestController {
     private static final String SALES_TAX_DELETED_PASS = "{\n\"True\"\n}";
     private static final String SALES_TAX_DELETED_FAIL = "{\n\"False\"\n}";
 
-    private final SalesTaxSeederFacade salesTaxSeederFacade;
+    private SalesTaxSeederFacade salesTaxSeederFacade;
 
     /**
      * CTOR
      */
     public SalesTaxRestController() {
+        setup();
+    }
+
+    /**
+     * Initializes the {@link SalesTaxSeederFacade} class, clears the old database file, and seeds the data to create a new database file.
+     * This is done every time the service is started to make sure that the database is not corrupted when the service is restarted.
+     */
+    @Async
+    public void setup() {
         ObjectDBManager objectDBManager = new ObjectDBManager();
         SalesTaxFileManager salesTaxFileManager = new SalesTaxFileManager();
         SalesTaxMapper salesTaxMapper = new SalesTaxMapper();
         SalesTaxDAO salesTaxDAO = new SalesTaxDAO(objectDBManager);
 
-        salesTaxSeederFacade = new SalesTaxSeederFacade(salesTaxFileManager, salesTaxMapper, salesTaxDAO, objectDBManager);
+        if (salesTaxSeederFacade == null) {
+            salesTaxSeederFacade = new SalesTaxSeederFacade(salesTaxFileManager, salesTaxMapper, salesTaxDAO, objectDBManager);
+        }
 
         //Make sure the tax database is cleared first. This avoids issues in between shutdowns where the file can't be read.
         salesTaxSeederFacade.deleteSalesTaxDatabaseFile();
@@ -52,8 +67,9 @@ public class SalesTaxRestController {
      * @return if a valid entry is found it will return the JSON representation of the {@link SalesTaxDBModel}, if no valid entry
      * is found the JSON returned will NO_SALES_TAX_ENTRY_FOUND string defined in the constants above.
      */
-    @RequestMapping(value = "/salesTax", method = {RequestMethod.GET})
-    public String getSalesTaxByZipCode(@RequestParam(required = true) final String zipCode) {
+    @Async
+    @RequestMapping(value = "/salesTax", method = {RequestMethod.GET}, produces = "application/json")
+    public Future<String> getSalesTaxByZipCode(@RequestParam(required = true) final String zipCode) {
         SalesTaxDBModel model = salesTaxSeederFacade.getSalesTaxDataByZipCode(zipCode);
         String jsonResponse;
 
@@ -66,7 +82,7 @@ public class SalesTaxRestController {
 
         System.out.println("Json Response:" + jsonResponse);
 
-        return jsonResponse;
+        return new AsyncResult<>(jsonResponse);
     }
 
     /**
@@ -76,8 +92,9 @@ public class SalesTaxRestController {
      * @return JSON string representation of the success of the database. The success response is SALES_TAX_DELETED_PASS defined above,
      * the failed response is SALES_TAX_DELETED_FAIL.
      */
-    @RequestMapping(value = "/salesTax", method = {RequestMethod.DELETE})
-    public String deleteSalesTaxEntries() {
+    @Async
+    @RequestMapping(value = "/salesTax", method = {RequestMethod.DELETE}, produces = "application/json")
+    public Future<String> deleteSalesTaxEntries() {
         String jsonResponse;
 
         //Attempt to seed the data first before returning the response.
@@ -91,6 +108,6 @@ public class SalesTaxRestController {
 
         System.out.println("Json Response:" + jsonResponse);
 
-        return jsonResponse;
+        return new AsyncResult<>(jsonResponse);
     }
 }
