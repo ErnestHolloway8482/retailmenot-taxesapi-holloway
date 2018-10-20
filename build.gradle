@@ -25,6 +25,10 @@ repositories {
     google()
 }
 
+bootJar {
+    launchScript()
+}
+
 group 'SalesTaxAPI'
 version '1.0-SNAPSHOT'
 

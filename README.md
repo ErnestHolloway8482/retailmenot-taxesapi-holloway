@@ -1,8 +1,8 @@
-#Summary
+# Summary
 
 The sales tax database contains roughly 40K entries based on the data pulled and seeded from Avalara for all 52 states within the U.S. The API allows the user to enter a zip code and retrieve the sales tax information for that zip code in the form of a JSON payload that can easily be integrated into their shipping software.
 
-#Build Instructions
+# Build Instructions
 
 The project was built with the community edition of IntelliJ and built with compiled with Java8. 
 
@@ -14,7 +14,7 @@ The project was built with the community edition of IntelliJ and built with comp
 6)	Run the SalesTaxAPIApplicaiton.java class located in the applications package of the project. You’ll see the typically Spring Boot configuration output in the console logs. Once you are complete hit the stop button to end the execution of the software. Once the software stops running from within IntelliJ you’ll no longer have access to the API calls.
 7)	Once the application is running open up your favorite browser and execute the API commands for a local host as defined below in the directions on working with the REST based API.
 
-#Limitations of the API
+# Limitations of the API
 
 * For the purposes of this coding exercise there is no concept of auto updating for new sales tax information that is available.
 * Since this is my first time ever writing my own backend API service this has not been deployed properly to AWS, Azure, Digital Ocean, etc. for hosting the API. As a result, this can only be tested on a local host for now. If given more time, I would at least deploy this as a public API service utilizing Digital Ocean.
@@ -24,9 +24,9 @@ The project was built with the community edition of IntelliJ and built with comp
 * I did not go overboard with documentation. At a bare minimum each class will have a brief description on what it does and what it is used for. Simple getter/setter method for database models are not documented, and Module classes method utilized for dependency injection have not been documented as well. This will become apparent when viewing the code.
 * In the event that you are running the software and run into an issue where no responses are coming back for an entered zip code then delete the sales_tax.odb and sales_tax.odb$ files from the root directory of the project.
 
-#Using the Restful API
+# Using the Restful API
 
-##Searching for A Sales Tax Entry with Valid Zip Code
+## Searching for A Sales Tax Entry with Valid Zip Code
 
 * REST Command: GET
 * URL: salesTax/
@@ -48,7 +48,7 @@ JSON Response:
 	"riskLevel": 1
 }
 
-##Searching for A Sales Tax Entry with Invalid ZipCode
+## Searching for A Sales Tax Entry with Invalid ZipCode
 
 * REST Command: GET
 * URL: salesTax/
